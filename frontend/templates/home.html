@@ -1,22 +1,162 @@
 {% extends "base.html" %}
+{% block title %}Accueil{% endblock %}
 
 {% block content %}
-<div class="max-w-3xl mx-auto text-center">
-    <h2 class="text-3xl font-bold mb-4">API E-Commerce Monolith</h2>
-    <p class="text-gray-600 mb-6">
-        Backend Django REST avec gestion des utilisateurs, produits et commandes.
-    </p>
+<div class="fade-in">
+    <!-- Hero Section -->
+    <div class="text-center mb-12">
+        <h2 class="text-4xl font-bold text-gray-800 mb-4">
+            <i class="fas fa-store text-blue-600 mr-3"></i>
+            E-Commerce Monolith
+        </h2>
+        <p class="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
+            Solution e-commerce complète avec architecture monolithique Django REST Framework
+        </p>
+        <div class="flex justify-center space-x-4">
+            <span class="bg-green-100 text-green-800 px-4 py-2 rounded-full text-sm font-medium">
+                <i class="fas fa-check-circle mr-2"></i>API REST
+            </span>
+            <span class="bg-blue-100 text-blue-800 px-4 py-2 rounded-full text-sm font-medium">
+                <i class="fas fa-database mr-2"></i>Base de données unifiée
+            </span>
+            <span class="bg-purple-100 text-purple-800 px-4 py-2 rounded-full text-sm font-medium">
+                <i class="fas fa-bolt mr-2"></i>Haute performance
+            </span>
+        </div>
+    </div>
 
-    <div class="grid grid-cols-3 gap-4">
-        <a href="/products/" class="bg-white p-6 rounded shadow hover:shadow-lg">
-            🛒 Produits
+    <!-- Stats Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+        <div class="bg-white rounded-xl shadow-lg p-6 hover-scale">
+            <div class="flex items-center justify-between mb-4">
+                <div class="bg-blue-100 rounded-full p-3">
+                    <i class="fas fa-box text-blue-600 text-xl"></i>
+                </div>
+                <span class="text-2xl font-bold text-gray-800" id="home-products-count">-</span>
+            </div>
+            <h3 class="text-gray-600 font-medium">Produits</h3>
+            <p class="text-sm text-gray-500 mt-1">Catalogue complet</p>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-lg p-6 hover-scale">
+            <div class="flex items-center justify-between mb-4">
+                <div class="bg-green-100 rounded-full p-3">
+                    <i class="fas fa-shopping-cart text-green-600 text-xl"></i>
+                </div>
+                <span class="text-2xl font-bold text-gray-800" id="home-orders-count">-</span>
+            </div>
+            <h3 class="text-gray-600 font-medium">Commandes</h3>
+            <p class="text-sm text-gray-500 mt-1">Gestion complète</p>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-lg p-6 hover-scale">
+            <div class="flex items-center justify-between mb-4">
+                <div class="bg-purple-100 rounded-full p-3">
+                    <i class="fas fa-users text-purple-600 text-xl"></i>
+                </div>
+                <span class="text-2xl font-bold text-gray-800" id="home-users-count">-</span>
+            </div>
+            <h3 class="text-gray-600 font-medium">Utilisateurs</h3>
+            <p class="text-sm text-gray-500 mt-1">Gestion avancée</p>
+        </div>
+    </div>
+
+    <!-- Feature Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <a href="/products/" class="group bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-8 hover:shadow-xl transition-all duration-300 hover-scale">
+            <div class="bg-blue-600 rounded-full p-4 w-16 h-16 flex items-center justify-center mb-6 group-hover:bg-blue-700 transition-colors">
+                <i class="fas fa-box text-white text-2xl"></i>
+            </div>
+            <h3 class="text-xl font-bold text-gray-800 mb-3">Gestion des Produits</h3>
+            <p class="text-gray-600 mb-4">Catalogue complet avec gestion des stocks, prix et descriptions détaillées</p>
+            <div class="flex items-center text-blue-600 font-medium">
+                <span>Voir les produits</span>
+                <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+            </div>
         </a>
-        <a href="/orders/" class="bg-white p-6 rounded shadow hover:shadow-lg">
-            📦 Commandes
+
+        <a href="/orders/" class="group bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-8 hover:shadow-xl transition-all duration-300 hover-scale">
+            <div class="bg-green-600 rounded-full p-4 w-16 h-16 flex items-center justify-center mb-6 group-hover:bg-green-700 transition-colors">
+                <i class="fas fa-shopping-cart text-white text-2xl"></i>
+            </div>
+            <h3 class="text-xl font-bold text-gray-800 mb-3">Gestion des Commandes</h3>
+            <p class="text-gray-600 mb-4">Suivi des commandes, gestion des statuts et calcul automatique des totaux</p>
+            <div class="flex items-center text-green-600 font-medium">
+                <span>Voir les commandes</span>
+                <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+            </div>
         </a>
-        <a href="/dashboard/" class="bg-white p-6 rounded shadow hover:shadow-lg">
-            📊 Dashboard
+
+        <a href="/dashboard/" class="group bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-8 hover:shadow-xl transition-all duration-300 hover-scale">
+            <div class="bg-purple-600 rounded-full p-4 w-16 h-16 flex items-center justify-center mb-6 group-hover:bg-purple-700 transition-colors">
+                <i class="fas fa-chart-line text-white text-2xl"></i>
+            </div>
+            <h3 class="text-xl font-bold text-gray-800 mb-3">Dashboard Analytique</h3>
+            <p class="text-gray-600 mb-4">Statistiques en temps réel, chiffre d'affaires et métriques clés</p>
+            <div class="flex items-center text-purple-600 font-medium">
+                <span>Voir le dashboard</span>
+                <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+            </div>
         </a>
     </div>
+
+    <!-- Architecture Info -->
+    <div class="mt-16 bg-white rounded-xl shadow-lg p-8">
+        <h3 class="text-2xl font-bold text-gray-800 mb-6 text-center">
+            <i class="fas fa-cube text-gray-600 mr-3"></i>
+            Architecture Monolithique
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div>
+                <h4 class="font-semibold text-gray-700 mb-3">Caractéristiques principales</h4>
+                <ul class="space-y-2">
+                    <li class="flex items-center text-gray-600">
+                        <i class="fas fa-check text-green-500 mr-3"></i>
+                        Base de données SQLite unifiée
+                    </li>
+                    <li class="flex items-center text-gray-600">
+                        <i class="fas fa-check text-green-500 mr-3"></i>
+                        Transactions atomiques garanties
+                    </li>
+                    <li class="flex items-center text-gray-600">
+                        <i class="fas fa-check text-green-500 mr-3"></i>
+                        Déploiement simplifié
+                    </li>
+                    <li class="flex items-center text-gray-600">
+                        <i class="fas fa-check text-green-500 mr-3"></i>
+                        Performance optimale
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-semibold text-gray-700 mb-3">Technologies utilisées</h4>
+                <div class="flex flex-wrap gap-2">
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">Django 4.2.7</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">DRF 3.14.0</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">SQLite</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">TailwindCSS</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">Font Awesome</span>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+<script>
+// Charger les statistiques pour la page d'accueil
+Promise.all([
+    fetch('/api/products/').then(r => r.json()),
+    fetch('/api/orders/').then(r => r.json()),
+    fetch('/api/users/').then(r => r.json())
+]).then(([products, orders, users]) => {
+    document.getElementById('home-products-count').innerText = products.results?.length || 0; // CORRECTION: Utiliser results
+    document.getElementById('home-orders-count').innerText = orders.results?.length || 0; // CORRECTION: Utiliser results
+    document.getElementById('home-users-count').innerText = users.results?.length || 0; // CORRECTION: Utiliser results
+}).catch(error => {
+    console.error('Erreur lors du chargement des statistiques:', error);
+    document.getElementById('home-products-count').innerText = '?';
+    document.getElementById('home-orders-count').innerText = '?';
+    document.getElementById('home-users-count').innerText = '?';
+});
+</script>
 {% endblock %}

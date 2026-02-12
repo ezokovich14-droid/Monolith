@@ -26,12 +26,12 @@ class OrderViewSet(viewsets.ModelViewSet):
     @transaction.atomic  # AVANTAGE MONOLITHE : Transaction atomique facile
     def create(self, request):
         """
-        Créer une commande avec items
+        Créer une commande simple
         
         DÉMONSTRATION :
         1. Validation
         2. Création de la commande
-        3. Création des items
+        3. Création de l'item
         4. Réduction du stock (accès direct au modèle Product)
         5. Envoi de notification (appel de fonction local)
         
@@ -41,7 +41,8 @@ class OrderViewSet(viewsets.ModelViewSet):
         serializer.is_valid(raise_exception=True)
 
         user_id = serializer.validated_data['user_id']
-        items_data = serializer.validated_data['items']
+        product_id = serializer.validated_data['product_id']
+        quantity = serializer.validated_data['quantity']
 
         try:
             # Récupérer l'utilisateur (accès direct à la DB)
@@ -52,39 +53,34 @@ class OrderViewSet(viewsets.ModelViewSet):
                 status=status.HTTP_404_NOT_FOUND
             )
 
+        try:
+            # Récupérer le produit
+            product = Product.objects.get(id=product_id)
+        except Product.DoesNotExist:
+            return Response(
+                {'error': 'Produit non trouvé'},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        # Vérifier la disponibilité
+        if not product.is_available(quantity):
+            return Response(
+                {'error': f'Stock insuffisant pour {product.name}. Disponible: {product.stock}'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
         # Créer la commande
         order = Order.objects.create(user=user)
 
-        # Créer les items et vérifier le stock
-        for item_data in items_data:
-            try:
-                product = Product.objects.get(id=item_data['product_id'])
-            except Product.DoesNotExist:
-                transaction.set_rollback(True)
-                return Response(
-                    {'error': f'Produit {item_data["product_id"]} non trouvé'},
-                    status=status.HTTP_404_NOT_FOUND
-                )
+        # Créer l'item
+        OrderItem.objects.create(
+            order=order,
+            product=product,
+            quantity=quantity
+        )
 
-            quantity = item_data['quantity']
-
-            # Vérifier la disponibilité
-            if not product.is_available(quantity):
-                transaction.set_rollback(True)
-                return Response(
-                    {'error': f'Stock insuffisant pour {product.name}'},
-                    status=status.HTTP_400_BAD_REQUEST
-                )
-
-            # Créer l'item
-            OrderItem.objects.create(
-                order=order,
-                product=product,
-                quantity=quantity
-            )
-
-            # Réduire le stock (ACCÈS DIRECT - pas d'API)
-            product.reduce_stock(quantity)
+        # Réduire le stock (ACCÈS DIRECT - pas d'API)
+        product.reduce_stock(quantity)
 
         # Calculer le total
         order.calculate_total()

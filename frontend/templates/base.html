@@ -2,24 +2,76 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>E-Commerce Monolith</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Commerce Monolith - {% block title %}Dashboard{% endblock %}</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .hover-scale {
+            transition: transform 0.2s ease-in-out;
+        }
+        .hover-scale:hover {
+            transform: scale(1.02);
+        }
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+    </style>
 </head>
-<body class="bg-gray-100 text-gray-900">
+<body class="bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen">
 
-<nav class="bg-white shadow p-4 flex justify-between">
-    <h1 class="font-bold text-xl">E-Commerce</h1>
-    <div class="space-x-4">
-        <a href="/" class="hover:text-blue-600">Accueil</a>
-        <a href="/products/" class="hover:text-blue-600">Produits</a>
-        <a href="/orders/" class="hover:text-blue-600">Commandes</a>
-        <a href="/dashboard/" class="hover:text-blue-600">Dashboard</a>
+<nav class="bg-white shadow-lg sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-16">
+            <div class="flex items-center">
+                <div class="flex-shrink-0 flex items-center">
+                    <i class="fas fa-store text-blue-600 text-2xl mr-3"></i>
+                    <h1 class="font-bold text-xl text-gray-800">E-Commerce Monolith</h1>
+                </div>
+            </div>
+            <div class="flex items-center space-x-4">
+                <a href="/" class="nav-link text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">
+                    <i class="fas fa-home mr-2"></i>Accueil
+                </a>
+                <a href="/products/" class="nav-link text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">
+                    <i class="fas fa-box mr-2"></i>Produits
+                </a>
+                <a href="/orders/" class="nav-link text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">
+                    <i class="fas fa-shopping-cart mr-2"></i>Commandes
+                </a>
+                <a href="/dashboard/" class="nav-link text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">
+                    <i class="fas fa-chart-line mr-2"></i>Dashboard
+                </a>
+            </div>
+        </div>
     </div>
 </nav>
 
-<main class="p-8">
+<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
     {% block content %}{% endblock %}
 </main>
+
+<footer class="bg-gray-800 text-white mt-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="text-center">
+            <p class="text-gray-400">&copy; 2024 E-Commerce Monolith - Projet de démonstration</p>
+            <p class="text-sm text-gray-500 mt-2">Architecture Monolithique avec Django REST Framework</p>
+        </div>
+    </div>
+</footer>
 
 </body>
 </html>

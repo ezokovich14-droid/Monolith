@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Test API</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-8">
+    <div class="max-w-4xl mx-auto">
+        <h1 class="text-2xl font-bold mb-6">🧪 Test des APIs</h1>
+        
+        <div class="bg-white rounded-lg shadow p-6 mb-6">
+            <h2 class="text-lg font-semibold mb-4">Test Produits</h2>
+            <button onclick="testProducts()" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                Tester /api/products/
+            </button>
+            <div id="products-result" class="mt-4 p-4 bg-gray-50 rounded"></div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow p-6 mb-6">
+            <h2 class="text-lg font-semibold mb-4">Test Commandes</h2>
+            <button onclick="testOrders()" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
+                Tester /api/orders/
+            </button>
+            <div id="orders-result" class="mt-4 p-4 bg-gray-50 rounded"></div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow p-6 mb-6">
+            <h2 class="text-lg font-semibold mb-4">Test Utilisateurs</h2>
+            <button onclick="testUsers()" class="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600">
+                Tester /api/users/
+            </button>
+            <div id="users-result" class="mt-4 p-4 bg-gray-50 rounded"></div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow p-6">
+            <h2 class="text-lg font-semibold mb-4">Console JavaScript</h2>
+            <div id="console-log" class="bg-black text-green-400 p-4 rounded font-mono text-sm h-40 overflow-y-auto"></div>
+        </div>
+    </div>
+
+    <script>
+        // Logger personnalisé
+        function log(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const logElement = document.getElementById('console-log');
+            const color = type === 'error' ? 'text-red-400' : type === 'success' ? 'text-green-400' : 'text-blue-400';
+            logElement.innerHTML += `<div class="${color}">[${timestamp}] ${message}</div>`;
+            logElement.scrollTop = logElement.scrollHeight;
+            console.log(message);
+        }
+
+        // Test Produits
+        async function testProducts() {
+            const resultDiv = document.getElementById('products-result');
+            resultDiv.innerHTML = '<div class="text-blue-500">⏳ Chargement...</div>';
+            
+            try {
+                log('🔄 Début test produits...', 'info');
+                const response = await fetch('/api/products/');
+                log(`✅ Status: ${response.status}`, 'success');
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+                
+                const data = await response.json();
+                log(`📦 ${data.count} produits reçus`, 'success');
+                
+                resultDiv.innerHTML = `
+                    <div class="text-green-600 font-semibold mb-2">✅ Succès - ${data.count} produits</div>
+                    <div class="text-sm text-gray-600">
+                        <div>Response status: ${response.status}</div>
+                        <div>Content-type: ${response.headers.get('content-type')}</div>
+                        <div>CORS headers: ${response.headers.get('access-control-allow-origin') || 'Non présent'}</div>
+                    </div>
+                    <div class="mt-2">
+                        <strong>Premier produit:</strong> ${data.results[0]?.name || 'N/A'}
+                    </div>
+                `;
+                
+            } catch (error) {
+                log(`❌ Erreur produits: ${error.message}`, 'error');
+                resultDiv.innerHTML = `
+                    <div class="text-red-600 font-semibold">❌ Erreur</div>
+                    <div class="text-sm text-gray-600 mt-2">${error.message}</div>
+                `;
+            }
+        }
+
+        // Test Commandes
+        async function testOrders() {
+            const resultDiv = document.getElementById('orders-result');
+            resultDiv.innerHTML = '<div class="text-blue-500">⏳ Chargement...</div>';
+            
+            try {
+                log('🔄 Début test commandes...', 'info');
+                const response = await fetch('/api/orders/');
+                log(`✅ Status: ${response.status}`, 'success');
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+                
+                const data = await response.json();
+                log(`🛒 ${data.count} commandes reçues`, 'success');
+                
+                resultDiv.innerHTML = `
+                    <div class="text-green-600 font-semibold mb-2">✅ Succès - ${data.count} commandes</div>
+                    <div class="text-sm text-gray-600">
+                        <div>Response status: ${response.status}</div>
+                        <div>Content-type: ${response.headers.get('content-type')}</div>
+                        <div>CORS headers: ${response.headers.get('access-control-allow-origin') || 'Non présent'}</div>
+                    </div>
+                    <div class="mt-2">
+                        <strong>Première commande:</strong> #${data.results[0]?.id || 'N/A'} - ${data.results[0]?.status || 'N/A'}
+                    </div>
+                `;
+                
+            } catch (error) {
+                log(`❌ Erreur commandes: ${error.message}`, 'error');
+                resultDiv.innerHTML = `
+                    <div class="text-red-600 font-semibold">❌ Erreur</div>
+                    <div class="text-sm text-gray-600 mt-2">${error.message}</div>
+                `;
+            }
+        }
+
+        // Test Utilisateurs
+        async function testUsers() {
+            const resultDiv = document.getElementById('users-result');
+            resultDiv.innerHTML = '<div class="text-blue-500">⏳ Chargement...</div>';
+            
+            try {
+                log('🔄 Début test utilisateurs...', 'info');
+                const response = await fetch('/api/users/');
+                log(`✅ Status: ${response.status}`, 'success');
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+                
+                const data = await response.json();
+                log(`👥 ${data.count} utilisateurs reçus`, 'success');
+                
+                resultDiv.innerHTML = `
+                    <div class="text-green-600 font-semibold mb-2">✅ Succès - ${data.count} utilisateurs</div>
+                    <div class="text-sm text-gray-600">
+                        <div>Response status: ${response.status}</div>
+                        <div>Content-type: ${response.headers.get('content-type')}</div>
+                        <div>CORS headers: ${response.headers.get('access-control-allow-origin') || 'Non présent'}</div>
+                    </div>
+                    <div class="mt-2">
+                        <strong>Premier utilisateur:</strong> ${data.results[0]?.username || 'N/A'}
+                    </div>
+                `;
+                
+            } catch (error) {
+                log(`❌ Erreur utilisateurs: ${error.message}`, 'error');
+                resultDiv.innerHTML = `
+                    <div class="text-red-600 font-semibold">❌ Erreur</div>
+                    <div class="text-sm text-gray-600 mt-2">${error.message}</div>
+                `;
+            }
+        }
+
+        // Test automatique au chargement
+        window.onload = function() {
+            log('🚀 Page de test API chargée', 'info');
+            log('🌐 URL actuelle: ' + window.location.href, 'info');
+        };
+    </script>
+</body>
+</html>
