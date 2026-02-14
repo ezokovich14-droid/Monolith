@@ -15,6 +15,8 @@ def home(request):
 def products(request):
     # 🚨 DÉMONSTRATION CRASH : Décommente pour crash TOUTE l'app
     # raise Exception("CRASH DU MONOLITHE - Plus rien ne fonctionne !")
+    # import os
+    # os._exit(1) 
     
     return render(request, 'products.html')
 
